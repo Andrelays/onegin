@@ -11,15 +11,23 @@ char *input_data(const char *file_name)
     char *buffer = (char *)calloc(size_file + 1, sizeof(char));
     fread(buffer, sizeof(char), size_file, file_pointer);
 
+    *(buffer + size_file + 1) = '\0';
+
     #ifdef TEST
         printf("size_file = %u\n\n", size_file);
         printf("buffer = %p\n\n", buffer);
         print_buffer(buffer, size_file);
         
     #endif
+    printf("1");
+    if(fclose(file_pointer) != 0)
+    {
+        printf("ERROR. FAILED TO CLOSE FILE");
 
-    fclose(file_pointer);
-
+        return NULL;
+    }
+    printf("1");
+ 
     return buffer;
 }
 

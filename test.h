@@ -3,6 +3,7 @@
 
 #include<stdio.h>
 
-void print_buffer(char *buffer, size_t size_file);
+void print_buffer(const char *buffer, size_t size_file);
+void print_string(const char *buffer);
 
 #endif //TEST_H_INCLUDED
