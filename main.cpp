@@ -2,21 +2,45 @@
 #include"test.h"
 #include<stdlib.h>
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    const char *file_name_test = "test.txt";
+    if (argc != 3)
+    {
+        printf("ERROR! Incorrect numbers of coomand line arguments: %d.\n", argc);
 
-    char *buffer = input_data(file_name_test);
+        return -1;
+    }
+    const char *file_name_input  = argv[1];
+    const char *file_name_output = argv[2];
 
-    size_t number_lines = 0;
+    struct text_parametrs Eugene_Onegin = {
+        .string_array = NULL,
+        .buffer       = NULL,
+        .number_lines = 0
+    };
 
-    const char **string_array = search_strings(buffer, &number_lines);
+    structor(&Eugene_Onegin, file_name_input);
 
-    // char *min_string = find_min(string_array, number_lines);
+    FILE *file_pointer = check_isopen (file_name_output, "wb");
 
-    // print_string(min_string);
+    fprintf(file_pointer, "%s", Eugene_Onegin.buffer);
+    putc('\n', file_pointer);
 
-    free(buffer);
+    sort(&Eugene_Onegin, reverse_compare_line);
+
+    output_data(&Eugene_Onegin, file_pointer);
+
+    sort(&Eugene_Onegin, compare_line);
+
+    output_data(&Eugene_Onegin, file_pointer);
+
+    // for (size_t i = 0; i < Eugene_Onegin.number_lines; i++)
+    //     printf("%u\n", Eugene_Onegin.size_string[i]);
+
+    if(!check_isclose (file_pointer))
+        return -2;
+
+    destructor(&Eugene_Onegin);
 
     return 0;    
 }
