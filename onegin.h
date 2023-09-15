@@ -6,6 +6,7 @@
 struct text_parametrs {
     const char **string_array;
     char        *buffer;
+    size_t      *size_string;
     size_t      number_lines;
 };
 
@@ -31,5 +32,21 @@ void output_data(const struct text_parametrs *text, FILE *file_pointer);
 void print_string(const char *string, FILE *file_pointer);
 
 void destructor(struct text_parametrs *text);
+
+void quick_sort( void *array,
+                 size_t number_elements,
+                 size_t size_elements,
+                 int (*compare )(const void *, const void *));
+
+void *partition( void *left_border,
+                 void *right_border,
+                 void *array,
+                 size_t number_elements,
+                 size_t size_elements,
+                 int (*compare )(const void *, const void *));
+
+int compare_int (const void *number_1, const void *number_2);
+void swap_values(void* value_1, void* value_2, const size_t size_elements);
+void *find_min_pointer(void *pointer_1, void *pointer_2);
 
 #endif // ONEGIN_H_INCLUDED

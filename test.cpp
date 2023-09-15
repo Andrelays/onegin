@@ -1,4 +1,5 @@
 #include"test.h"
+#include "colors.h"
 
 void print_buffer(const char *buffer, size_t size_file)
 {
@@ -38,5 +39,36 @@ void print_string(const char *string)
     else if(string[index] == '\0')
         printf("string[%u] = %3d = \'\\0\'\n", index, string[index]);
 
+    printf("\n");
+}
+
+void print_partition(const int *left_border, const int *right_border, int *pivot, int *array, size_t number_elements)
+{
+    int *pointer = array; 
+    while(pointer < array + number_elements)
+    {
+        if(pointer < left_border && pointer < right_border)
+            printf(MAGENTA "%d" RESET_COLOR, *pointer);
+
+        else if(pointer == left_border)
+            printf(BLUE "%d" RESET_COLOR, *pointer);
+
+        else if(pointer < pivot && pointer < right_border)
+            printf(CYAN "%d" RESET_COLOR, *pointer);
+
+        else if(pointer == pivot && pointer != right_border)
+            printf(GREEN "%d" RESET_COLOR, *pointer);
+        
+        else if(pointer < right_border)
+            printf(YELLOW "%d" RESET_COLOR, *pointer);
+        
+        else if(pointer == right_border)
+            printf(RED "%d" RESET_COLOR, *pointer);
+        
+        else
+            printf(MAGENTA "%d" RESET_COLOR, *pointer);
+
+        ++pointer;    
+    }
     printf("\n");
 }

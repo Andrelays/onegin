@@ -20,8 +20,8 @@ char *input_data(const char *file_name)
 
     size_t size_file = determine_size(file_pointer);
 
-    char *buffer = (char *)calloc(size_file + 1, sizeof(char));
-    fread(buffer, sizeof(char), size_file, file_pointer);
+    char *buffer = (char *)calloc(size_file + 1, sizeof(char)); //chk
+    fread(buffer, sizeof(char), size_file, file_pointer); //chk
 
     *(buffer + size_file) = '\0';
 
