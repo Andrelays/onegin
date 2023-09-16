@@ -6,6 +6,8 @@
 
 void structor(struct text_parametrs *text, const char *file_name)
 {
+    MYASSERT(text != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
+
     text->buffer = input_data(file_name);
 
     search_strings(text);    
@@ -20,8 +22,10 @@ char *input_data(const char *file_name)
 
     size_t size_file = determine_size(file_pointer);
 
-    char *buffer = (char *)calloc(size_file + 1, sizeof(char)); //chk
-    fread(buffer, sizeof(char), size_file, file_pointer); //chk
+    char *buffer = (char *)calloc(size_file + 1, sizeof(char));
+    MYASSERT(buffer != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
+
+    fread(buffer, sizeof(char), size_file, file_pointer);
 
     *(buffer + size_file) = '\0';
 
@@ -54,6 +58,9 @@ void search_strings(struct text_parametrs *text)
 
     text->string_array = (const char **) calloc(text->number_lines, sizeof(char *));
     text->size_string  = (size_t *)      calloc(text->number_lines, sizeof(size_t));
+
+    MYASSERT(text->string_array != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
+    MYASSERT(text->size_string  != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
     size_t index = 0;
     const char *string_pointer = text->buffer;
@@ -94,7 +101,7 @@ FILE *check_isopen (const char *file_name, const char *opening_mode)
 
     FILE *file_pointer = NULL;
 
-    if ((file_pointer = fopen (file_name, opening_mode)) == NULL || ferror (file_pointer)) // todo func, check isopen-
+    if ((file_pointer = fopen (file_name, opening_mode)) == NULL || ferror (file_pointer))
         printf("ERROR! Could not open the file \"%s\"!\n", file_name);
 
     return file_pointer;

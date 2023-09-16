@@ -42,6 +42,37 @@ void print_string(const char *string)
     printf("\n");
 }
 
+// void print_partition(const char *left_border, const char *right_border, char *pivot, char *array, size_t number_elements)
+// {
+//     int *pointer = array; 
+//     while(pointer < array + number_elements)
+//     {
+//         if(pointer < left_border && pointer < right_border)
+//             printf(MAGENTA "%d" RESET_COLOR, *pointer);
+
+//         else if(pointer == left_border)
+//             printf(BLUE "%d" RESET_COLOR, *pointer);
+
+//         else if(pointer < pivot && pointer < right_border)
+//             printf(CYAN "%d" RESET_COLOR, *pointer);
+
+//         else if(pointer == pivot && pointer != right_border)
+//             printf(GREEN "%d" RESET_COLOR, *pointer);
+        
+//         else if(pointer < right_border)
+//             printf(YELLOW "%d" RESET_COLOR, *pointer);
+        
+//         else if(pointer == right_border)
+//             printf(RED "%d" RESET_COLOR, *pointer);
+        
+//         else
+//             printf(MAGENTA "%d" RESET_COLOR, *pointer);
+
+//         ++pointer;    
+//     }
+//     printf("       left = %p   right = %p\n", left_border, right_border);
+// }
+
 void print_partition(const int *left_border, const int *right_border, int *pivot, int *array, size_t number_elements)
 {
     int *pointer = array; 
@@ -70,5 +101,5 @@ void print_partition(const int *left_border, const int *right_border, int *pivot
 
         ++pointer;    
     }
-    printf("\n");
+    printf("       left = %p   right = %p\n", left_border, right_border);
 }

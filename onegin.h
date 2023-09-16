@@ -23,8 +23,8 @@ bool check_isclose (FILE *file_pointer);
 
 void sort(struct text_parametrs *text, int (* function_pointer) (const char *, const char *, size_t, size_t));
 size_t find_min(const char *const *string_array, const size_t number_lines, size_t *size_string, 
-                int (* function_pointer) (const char *, const char *, size_t, size_t));
-int compare_line(const char *string_1, const char *string_2, size_t size_string_1, size_t size_string_2);
+int (* function_pointer) (const char *, const char *, size_t, size_t));
+int compare_line(const void *string_1, const void *string_2);
 int reverse_compare_line(const char *string_1, const char *string_2, size_t size_string_1, size_t size_string_2);
 void swap_pointer(const char **string_array, size_t index_min, size_t number_pass, size_t *size_string);
 

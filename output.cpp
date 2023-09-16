@@ -12,7 +12,9 @@ void output_data(const struct text_parametrs *text, FILE *file_pointer)
     {
         print_string((text->string_array)[index], file_pointer);
         ++index;
-    }    
+    }
+
+    putc('\n', file_pointer);  
 }
 
 void print_string(const char *string, FILE *file_pointer)
