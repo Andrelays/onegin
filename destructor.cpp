@@ -8,7 +8,10 @@ void destructor(struct text_parametrs *text)
 
     free(text->buffer);
     free(text->string_array);
+    for(size_t index = 0; index < text->number_lines; index++)
+        (text->size_string)[index] = -1;
+
     free(text->size_string);
 
-    text->size_string = 0;
+    text->number_lines = -1;
 }

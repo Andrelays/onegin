@@ -27,7 +27,7 @@ char *input_data(const char *file_name)
 
     fread(buffer, sizeof(char), size_file, file_pointer);
 
-    *(buffer + size_file) = '\0';
+    buffer[size_file] = '\0';
 
     if(!check_isclose (file_pointer))
         return NULL;
@@ -65,21 +65,18 @@ void search_strings(struct text_parametrs *text)
     size_t index = 0;
     const char *string_pointer = text->buffer;
 
-    while(index < text->number_lines)
+    while(index < text->number_lines - 1)
     {
         *(text->string_array + index) = string_pointer;
 
-        if(index < text->number_lines - 1)
-        {
-            string_pointer = strchr(string_pointer, '\n') + 1;
-            *(text->size_string + index) = string_pointer - *(text->string_array + index);
-        }
-
-        else
-             *(text->size_string + index) = strchr(string_pointer, '\0') - *(text->string_array + index) + 1;  
+        string_pointer = strchr(string_pointer, '\n') + 1;
+        *(text->size_string + index) = string_pointer - *(text->string_array + index);
 
         ++index;
     } 
+    *(text->string_array + index) = string_pointer;
+
+    *(text->size_string + index) = strchr(string_pointer, '\0') - *(text->string_array + index) + 1;  
 }
 
 size_t count_strings(const char *buffer)
@@ -109,7 +106,7 @@ FILE *check_isopen (const char *file_name, const char *opening_mode)
 
 bool check_isclose (FILE *file_pointer)
 {
-    if(fclose(file_pointer) != 0)
+    if(fclose(file_pointer))
     {
         printf("ERROR! Could not close the file\n");
         return false;
