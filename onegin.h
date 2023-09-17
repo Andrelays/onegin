@@ -29,6 +29,8 @@ size_t find_min(const char *const *string_array, const size_t number_lines, size
 int compare_line(const void *string_1, const void *string_2);
 int reverse_compare_line(const char *string_1, const char *string_2, size_t size_string_1, size_t size_string_2);
 void swap_pointer(const char **string_array, size_t index_min, size_t number_pass, size_t *size_string);
+const char *move_to_alpha(const char * char_string);
+const char *back_to_alpha(const char *string, const char *end_string);
 
 void output_data(const struct text_parametrs *text, FILE *file_pointer);
 void print_string(const char *string, FILE *file_pointer);
@@ -36,18 +38,26 @@ void print_string(const char *string, FILE *file_pointer);
 void destructor(struct text_parametrs *text);
 
 int compare_int (const void *number_1, const void *number_2);
+void swap_values(void* value_1, void* value_2, const size_t size_elements);
+
 void quick_sort( void *array,
                  size_t number_elements,
                  size_t size_elements,
                  compare_without_size comparator);
 
+void quick_sort_loop( void *left_border,
+                      void *right_border,
+                      size_t size_elements,
+                      compare_without_size comparator);
+
 void *partition( void *left_border,
                  void *right_border,
-                 void *array,
-                 size_t number_elements,
                  size_t size_elements,
                  compare_without_size comparator);
-void swap_values(void* value_1, void* value_2, const size_t size_elements);
-void *find_min_pointer(void *pointer_1, void *pointer_2);
+
+void sort_three_values(void* left_border, 
+                  void* right_border, 
+                  size_t size_elements, 
+                  compare_without_size comparator);
 
 #endif // ONEGIN_H_INCLUDED

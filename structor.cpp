@@ -65,18 +65,17 @@ void search_strings(struct text_parametrs *text)
     size_t index = 0;
     const char *string_pointer = text->buffer;
 
-    while(index < text->number_lines - 1)
+    for (index = 0; index < text->number_lines - 1; index++)
     {
-        *(text->string_array + index) = string_pointer;
+        (text->string_array)[index] = string_pointer;
 
         string_pointer = strchr(string_pointer, '\n') + 1;
-        *(text->size_string + index) = string_pointer - *(text->string_array + index);
 
-        ++index;
+        (text->size_string)[index] = string_pointer - (text->string_array)[index];
     } 
-    *(text->string_array + index) = string_pointer;
+    (text->string_array)[index] = string_pointer;
 
-    *(text->size_string + index) = strchr(string_pointer, '\0') - *(text->string_array + index) + 1;  
+    (text->size_string)[index] = strchr(string_pointer, '\0') - (text->string_array)[index] + 1;  
 }
 
 size_t count_strings(const char *buffer)

@@ -3,8 +3,8 @@
 
 void output_data(const struct text_parametrs *text, FILE *file_pointer)
 {
-    MYASSERT(text->string_array     != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
-    MYASSERT(file_pointer != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
+    MYASSERT(text->string_array != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
+    MYASSERT(file_pointer       != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
     size_t index = 0;
 
