@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
     //                          "sasasbaa",
     //                          "aabb"};
 
-    //quick_sort(Eugene_Onegin.string_array, Eugene_Onegin.number_lines, sizeof(char *), compare_line);
+    quick_sort(Eugene_Onegin.string_array, Eugene_Onegin.number_lines, sizeof(char *), compare_line);
 
-    //output_data(&Eugene_Onegin, file_pointer);
+    output_data(&Eugene_Onegin, file_pointer);
 
     // for(size_t i = 0; i < 5; i++)
     // {
@@ -51,9 +51,9 @@ int main(int argc, char *argv[])
 
     // output_data(&Eugene_Onegin, file_pointer);
 
-    //quick_sort(Eugene_Onegin.string_array, Eugene_Onegin.number_lines, sizeof(char *), compare_line);
+    // qsort(Eugene_Onegin.string_array, Eugene_Onegin.number_lines, sizeof(char *), compare_line);
 
-    //output_data(&Eugene_Onegin, file_pointer);
+    // output_data(&Eugene_Onegin, file_pointer);
 
     // for (size_t i = 0; i < Eugene_Onegin.number_lines; i++)
     //     printf("%u\n", Eugene_Onegin.size_string[i]);
@@ -63,18 +63,18 @@ int main(int argc, char *argv[])
 
     destructor(&Eugene_Onegin);
 
-    const size_t size_array = 15;
+    // const size_t size_array = 15;
 
-    int array[size_array] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 1};
+    // int array[size_array] = {9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 1, 2, 1};
 
-    //printf("%d", ((int*) partition(array, array + size_array - 1, array, size_array, sizeof(int), compare_int))[0]);
+    // printf("%d", ((int*) partition(array, array + size_array - 1, array, size_array, sizeof(int), compare_int))[0]);
 
-    quick_sort(array, size_array, sizeof(int), compare_int);
+    // quick_sort(array, size_array, sizeof(int), compare_int);
 
-    for(size_t i = 0; i < size_array; i++)
-    {
-        printf("\n%d", array[i]);
-    }
+    // for(size_t i = 0; i < size_array; i++)
+    // {
+    //     printf("\n%d", array[i]);
+    // }
 
     return 0;    
 }

@@ -54,8 +54,8 @@ int compare_line(const void *string_1, const void *string_2)
     const char *char_string_1 = *((const char * const*) string_1);
     const char *char_string_2 = *((const char * const*) string_2);
 
-    print_string(char_string_1);
-    print_string(char_string_2);
+    // print_string(char_string_1);
+    // print_string(char_string_2);
 
     // #define MOVE_TO_ALPHA(string)                                               
     //     while(!isalpha(*string) && *string != '\n' && *string != '\0')          
@@ -184,24 +184,31 @@ void quick_sort( void *array,
     MYASSERT(array   != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
     MYASSERT(comparator != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
+    // void quick_sort_loop();
+
     void *left_border  = array;
     void *right_border = (char *) array + size_elements * (number_elements - 1);
 
     //printf("left_border = %p  number_elements = %u\n", left_border, number_elements);
 
-    if((char *)left_border + size_elements < (char *)right_border)
+    if((char *)left_border < (char *)right_border)
     {
         left_border = partition(left_border, right_border, array, number_elements, size_elements, comparator);
-        printf("left_border:\n");
-        print_string(*((char **)left_border));
-        //printf("left_border = %p  number_elements = %u\n", left_border, number_elements);
-        quick_sort(array, ((char *)left_border - (char *)array) / size_elements + 1, size_elements, comparator);
-        quick_sort((char *)left_border + size_elements - size_elements, ((char *)right_border - (char *)left_border) / size_elements + 1,size_elements, comparator);
+        //printf("left_border:\n");
+        //print_string(*((char **)left_border));
+        printf("left_border = %p  number_elements = %u\n", left_border, number_elements);
+        quick_sort(array, ((char *)left_border - (char *)array) / size_elements, size_elements, comparator);
+        quick_sort((char *)left_border, ((char *)right_border - (char *)left_border) / size_elements + 1,size_elements, comparator);
     }
 
-    if((char *)right_border - (char *)left_border == size_elements && comparator(left_border, right_border) > 0)
-        swap_values(left_border, right_border, size_elements);    
+    //if((char *)right_border - (char *)left_border == size_elements && comparator(left_border, right_border) > 0)
+    //  swap_values(left_border, right_border, size_elements);    
 }
+
+// void quick_sort_loop()
+// {
+
+// }
 
 void *partition( void *left_border,
                  void *right_border,
@@ -213,7 +220,7 @@ void *partition( void *left_border,
     MYASSERT(left_border  != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
     MYASSERT(right_border != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
     MYASSERT(array        != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
-    MYASSERT(comparator      != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
+    MYASSERT(comparator   != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
 
     void *pivot = calloc(1, size_elements);
 
@@ -221,46 +228,85 @@ void *partition( void *left_border,
 
     void *pointer_pivot = (char *) left_border + size_elements * (number_elements / 2);
 
-    memcpy(pivot, pointer_pivot, size_elements);
-    printf("%s\n", *((char **)left_border));
+    memcpy(pivot, pointer_pivot, size_elements); 
+    //printf("%s\n", *((char **)left_border));
 
     // const char *char_pivot = *((const char * const*) pivot);
 
-    //printf("pivot = %d\n", (*(int *) pivot));
+    printf("pivot = %d\n", (*(int *) pivot));
 
     //print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
 
-    while(true)
+    // while(true)
+    // {
+    //     // printf("pivot = %s", char_pivot);
+    //     print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
+    //     while(comparator(left_border, pivot) < 0 && left_border < right_border)
+    //     {
+    //         left_border = (char*)left_border + size_elements;
+    //         // printf("\n1\n");
+    //         print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
+    //     }
+
+    //     while(comparator(right_border, pivot) > 0 && left_border < right_border)
+    //     {
+    //         right_border = (char*)right_border - size_elements;
+    //         // printf("\n2\n");
+    //         print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
+    //     }
+
+    //     if (left_border >= right_border)
+    //     {
+    //         print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
+    //         free (pivot);
+
+    //         return find_min_pointer (left_border, right_border);
+    //     }
+
+    //     swap_values(left_border, right_border, size_elements);
+
+    //         left_border = (char*)left_border + size_elements;
+    //         right_border = (char*)right_border - size_elements;
+    // }
+    bool right_border_not_moved = true;
+
+    while(left_border <= right_border)
     {
-        // printf("pivot = %s", char_pivot);
-        //print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
-        while(comparator(left_border, pivot) < 0 && left_border < right_border)
+        // print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
+
+        while(comparator(left_border, pivot) < 0)
         {
             left_border = (char*)left_border + size_elements;
-            // printf("\n1\n");
-            //print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
+            // print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
         }
 
-        while(comparator(right_border, pivot) > 0 && left_border < right_border)
+        while(comparator(right_border, pivot) > 0)
         {
+            right_border_not_moved = false;
             right_border = (char*)right_border - size_elements;
-            // printf("\n2\n");
-            //print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
+            // print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
         }
 
-        if (left_border >= right_border)
+        if (left_border <= right_border)
         {
-            //print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
-            free (pivot);
+            if (left_border != right_border)
+                right_border_not_moved = false;
 
-            return find_min_pointer (left_border, right_border);
-        }
-
-        swap_values(left_border, right_border, size_elements);
+            swap_values(left_border, right_border, size_elements);
+            // print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);
 
             left_border = (char*)left_border + size_elements;
             right_border = (char*)right_border - size_elements;
+            // print_partition( (int *)left_border, (int *) right_border, (int *) pointer_pivot, (int *) array, number_elements);   
+        }
+                
     }
+    printf("right_border_not_moved = %d\n", right_border_not_moved);
+    if(right_border_not_moved)
+        return ((char *)left_border - size_elements);
+
+    return
+        left_border;
 }
 
 int compare_int (const void *number_1, const void *number_2)
@@ -277,18 +323,18 @@ void swap_values(void* value_1, void* value_2, const size_t size_elements)
     MYASSERT(value_1 != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
     MYASSERT(value_2 != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
-    printf("BEFORE:\n");
-    print_string(*((char **) value_1));
-    print_string(*((char **) value_2));    
+    // printf("BEFORE:\n");
+    // print_string(*((char **) value_1));
+    // print_string(*((char **) value_2));    
     for (size_t index = 0; index < size_elements; index++)
     {
         char temp           = *((char *) value_1 + index);
         *(((char *) value_1) + index) = *(((char *) value_2) + index);
         *(((char *) value_2) + index) = temp;
     }
-    printf("After:\n");
-    print_string(*((char **) value_1));
-    print_string(*((char **) value_2));   
+    // printf("After:\n");
+    // print_string(*((char **) value_1));
+    // print_string(*((char **) value_2));   
 }
 
 void *find_min_pointer(void *pointer_1, void *pointer_2)
