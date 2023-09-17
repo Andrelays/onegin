@@ -4,7 +4,7 @@
 #include<stdlib.h>
 #include<string.h>
 
-void structor(struct text_parametrs *text, const char *file_name)
+void constructor(struct text_parametrs *text, const char *file_name)
 {
     MYASSERT(text != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
@@ -25,7 +25,7 @@ char *input_data(const char *file_name)
     char *buffer = (char *)calloc(size_file + 1, sizeof(char));
     MYASSERT(buffer != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
 
-    fread(buffer, sizeof(char), size_file, file_pointer);
+    size_file = fread(buffer, sizeof(char), size_file, file_pointer);
 
     buffer[size_file] = '\0';
 
@@ -56,26 +56,25 @@ void search_strings(struct text_parametrs *text)
 
     text->number_lines = count_strings(text->buffer);
 
-    text->string_array = (const char **) calloc(text->number_lines, sizeof(char *));
-    text->size_string  = (size_t *)      calloc(text->number_lines, sizeof(size_t));
+    text->string_array = (string_parametrs *) calloc(text->number_lines, sizeof(string_parametrs));
 
     MYASSERT(text->string_array != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
-    MYASSERT(text->size_string  != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
     size_t index = 0;
     const char *string_pointer = text->buffer;
 
     for (index = 0; index < text->number_lines - 1; index++)
     {
-        (text->string_array)[index] = string_pointer;
+        ((text->string_array)[index]).string_pointer = string_pointer;
 
         string_pointer = strchr(string_pointer, '\n') + 1;
 
-        (text->size_string)[index] = string_pointer - (text->string_array)[index];
+        ((text->string_array)[index]).size_string = string_pointer - ((text->string_array)[index]).string_pointer;
     } 
-    (text->string_array)[index] = string_pointer;
 
-    (text->size_string)[index] = strchr(string_pointer, '\0') - (text->string_array)[index] + 1;  
+    ((text->string_array)[index]).string_pointer = string_pointer;
+
+    ((text->string_array)[index]).size_string = strchr(string_pointer, '\0') - ((text->string_array)[index]).string_pointer + 1;
 }
 
 size_t count_strings(const char *buffer)

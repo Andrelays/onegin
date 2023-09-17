@@ -4,16 +4,19 @@
 #include<stdio.h>
 
 struct text_parametrs {
-    const char **string_array;
-    char        *buffer;
-    size_t      *size_string;
-    size_t      number_lines;
+    struct string_parametrs *string_array;
+    char                    *buffer;
+    size_t                   number_lines;
 };
 
-typedef int (*compare_with_size) (const char *, const char *, size_t, size_t);
-typedef int (*compare_without_size) (const void *, const void *);
+struct string_parametrs {
+    const char      *string_pointer;
+    size_t           size_string;
+};
 
-void structor(struct text_parametrs *text, const char *file_name);
+typedef int (*compare_func) (const void *, const void *);
+
+void constructor(struct text_parametrs *text, const char *file_name);
 
 char *input_data(const char *file_name);
 size_t determine_size(FILE *file_pointer);
@@ -24,11 +27,8 @@ size_t count_strings(const char *buffer);
 FILE *check_isopen (const char *file_name, const char *opening_mode);
 bool check_isclose (FILE *file_pointer);
 
-void sort(struct text_parametrs *text, compare_with_size comparator);
-size_t find_min(const char *const *string_array, const size_t number_lines, size_t *size_string, compare_with_size comparator);
-int compare_line(const void *string_1, const void *string_2);
-int reverse_compare_line(const char *string_1, const char *string_2, size_t size_string_1, size_t size_string_2);
-void swap_pointer(const char **string_array, size_t index_min, size_t number_pass, size_t *size_string);
+int compare_line(const void *string_parametrs_1, const void *string_parametrs_2);
+int reverse_compare_line(const void *string_parametrs_1, const void *string_parametrs_2);
 const char *move_to_alpha(const char * char_string);
 const char *back_to_alpha(const char *string, const char *end_string);
 
@@ -43,21 +43,21 @@ void swap_values(void* value_1, void* value_2, const size_t size_elements);
 void quick_sort( void *array,
                  size_t number_elements,
                  size_t size_elements,
-                 compare_without_size comparator);
+                 compare_func comparator);
 
 void quick_sort_loop( void *left_border,
                       void *right_border,
                       size_t size_elements,
-                      compare_without_size comparator);
+                      compare_func comparator);
 
 void *partition( void *left_border,
                  void *right_border,
                  size_t size_elements,
-                 compare_without_size comparator);
+                 compare_func comparator);
 
 void sort_three_values(void* left_border, 
                   void* right_border, 
                   size_t size_elements, 
-                  compare_without_size comparator);
+                  compare_func comparator);
 
 #endif // ONEGIN_H_INCLUDED

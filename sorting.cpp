@@ -5,49 +5,14 @@
 #include<string.h>
 #include<stdlib.h>
 
-void sort(struct text_parametrs *text, compare_with_size comparator)
+int compare_line(const void *string_parametrs_1, const void *string_parametrs_2)
 {
-    MYASSERT(text       != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
-    MYASSERT(comparator != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
+    MYASSERT(string_parametrs_1 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
+    MYASSERT(string_parametrs_2 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
+    MYASSERT(string_parametrs_1 != string_parametrs_2, EQUAL_POINTERS_PASSED_TO_FUNC, return 0);
 
-    for (size_t number_pass = 0; number_pass < text->number_lines - 1; number_pass++)
-    {
-        MYASSERT(number_pass < text->number_lines, GOING_BEYOUND_BOUNDARY_ARRAY, return);
-
-        size_t index_min = find_min(text->string_array + number_pass, 
-                                    text->number_lines - number_pass, 
-                                    text->size_string  + number_pass, comparator) + number_pass;
-
-        swap_pointer(text->string_array, index_min, number_pass, text->size_string);
-    }
-}
-
-size_t find_min(const char *const *string_array, const size_t number_lines, size_t *size_string, compare_with_size comparator)
-{
-    MYASSERT(string_array != NULL, NULL_POINTER_PASSED_TO_FUNC, return 0);
-    MYASSERT(size_string  != NULL, NULL_POINTER_PASSED_TO_FUNC, return 0);
-    MYASSERT(comparator   != NULL, NULL_POINTER_PASSED_TO_FUNC, return 0);
-
-    size_t index_min = 0;
-
-    for(size_t index = 1; index < number_lines; index++)
-    {
-        MYASSERT(index < number_lines, GOING_BEYOUND_BOUNDARY_ARRAY, return 0);
-
-        if(comparator(string_array[index_min], string_array[index], size_string[index_min], size_string[index]) > 0)
-            index_min = index;
-    }
-    return index_min;
-}
-
-int compare_line(const void *string_1, const void *string_2)
-{
-    MYASSERT(string_1 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
-    MYASSERT(string_2 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
-    MYASSERT(string_1 != string_2, EQUAL_POINTERS_PASSED_TO_FUNC, return 0);
-
-    const char *char_string_1 = *((const char * const*) string_1);
-    const char *char_string_2 = *((const char * const*) string_2);                                                      
+    const char *char_string_1 = ((const string_parametrs *) string_parametrs_1)->string_pointer;
+    const char *char_string_2 = ((const string_parametrs *) string_parametrs_2)->string_pointer;                                                    
 
     while(*char_string_1 != '\n' && *char_string_2 != '\n' && 
           *char_string_1 != '\0' && *char_string_2 != '\0')
@@ -65,7 +30,7 @@ int compare_line(const void *string_1, const void *string_2)
         ++char_string_2;
     }
 
-    if(*char_string_2 != '\n' && *char_string_2 != '\0')
+    if(*char_string_2 != '\n' && *char_string_2 != '\0')//do -
         return -1;
     
     if(*char_string_1 != '\n' && *char_string_1 != '\0')
@@ -74,11 +39,17 @@ int compare_line(const void *string_1, const void *string_2)
     return 0;
 }
 
-int reverse_compare_line(const char *string_1, const char *string_2, size_t size_string_1, size_t size_string_2)
+int reverse_compare_line(const void *string_parametrs_1, const void *string_parametrs_2)
 {
-    MYASSERT(string_1 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
-    MYASSERT(string_2 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
-    MYASSERT(string_1 != string_2, EQUAL_POINTERS_PASSED_TO_FUNC, return 0);
+    MYASSERT(string_parametrs_1 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
+    MYASSERT(string_parametrs_2 != NULL,     NULL_POINTER_PASSED_TO_FUNC,   return 0);
+    MYASSERT(string_parametrs_1 != string_parametrs_2, EQUAL_POINTERS_PASSED_TO_FUNC, return 0);
+
+    const char *string_1 = ((const string_parametrs *) string_parametrs_1)->string_pointer;
+    const char *string_2 = ((const string_parametrs *) string_parametrs_2)->string_pointer;
+
+    size_t size_string_1 = ((const string_parametrs *) string_parametrs_1)->size_string;
+    size_t size_string_2 = ((const string_parametrs *) string_parametrs_2)->size_string;
 
     const char *end_string_1 = string_1 + size_string_1 - 1;
     const char *end_string_2 = string_2 + size_string_2 - 1;
@@ -107,26 +78,10 @@ int reverse_compare_line(const char *string_1, const char *string_2, size_t size
     return 0;
 }
 
-void swap_pointer(const char **string_array, size_t index_min, size_t number_pass, size_t *size_string)
-{
-    MYASSERT(string_array != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
-    MYASSERT(size_string  != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
-
-    const char *pointer_buffer = *(string_array + number_pass); 
-
-    *(string_array + number_pass) = *(string_array + index_min);
-    *(string_array + index_min) = pointer_buffer;
-
-    size_t size_buffer = *(size_string + number_pass); 
-
-    *(size_string + number_pass) = *(size_string + index_min);
-    *(size_string + index_min) = size_buffer;
-}
-
 void quick_sort( void *array,
                  size_t number_elements,
                  size_t size_elements,
-                 compare_without_size comparator)
+                 compare_func comparator)
 {
     MYASSERT(array      != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
     MYASSERT(comparator != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
@@ -140,7 +95,7 @@ void quick_sort( void *array,
 void quick_sort_loop( void *left_border,
                  void *right_border,
                  size_t size_elements,
-                 compare_without_size comparator)
+                 compare_func comparator)
 {
     MYASSERT(left_border  != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
     MYASSERT(right_border != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
@@ -164,7 +119,7 @@ void quick_sort_loop( void *left_border,
 void *partition( void *left_border,
                  void *right_border,
                  size_t size_elements,
-                 compare_without_size comparator)
+                 compare_func comparator)
 {
     MYASSERT(left_border  != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
     MYASSERT(right_border != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
@@ -233,7 +188,7 @@ void swap_values(void* value_1, void* value_2, const size_t size_elements)
 void sort_three_values(void* left_border, 
                   void* right_border, 
                   size_t size_elements, 
-                  compare_without_size comparator)
+                  compare_func comparator)
 {
     MYASSERT(left_border  != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
     MYASSERT(right_border != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
