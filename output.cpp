@@ -1,12 +1,12 @@
 #include "onegin.h"
-#include "myassert.h"
+#include "libraries/utilities/myassert.h"
 
 void output_data(const struct text_parametrs *text, FILE *file_pointer)
 {
     MYASSERT(text->string_array != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
     MYASSERT(file_pointer       != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
-    size_t index = 0;
+    ssize_t index = 0;
 
     while (index < text->number_lines)
     {
@@ -14,7 +14,7 @@ void output_data(const struct text_parametrs *text, FILE *file_pointer)
         ++index;
     }
 
-    putc('\n', file_pointer);  
+    putc('\n', file_pointer);
 }
 
 void print_string(const char *string, FILE *file_pointer)
@@ -32,7 +32,7 @@ void print_string(const char *string, FILE *file_pointer)
 
         ++string;
     }
-    
+
     if (!is_empty_string)
         putc('\n', file_pointer);
 }

@@ -1,40 +1,42 @@
+#include<stdlib.h>
 #include"onegin.h"
 #include"test.h"
-#include<stdlib.h>
+#include"libraries/utilities/utilities.h"
+#include"libraries/utilities/myassert.h"
 
 int main(int argc, const char *argv[])
 {
-    if (argc != 3)
-    {
-        printf("ERROR! Incorrect numbers of coomand line arguments: %d.\n", argc);
-        return -1;
+    const int CORRECT_NUMBER_ARGC = 3;
+
+    if(!check_argc(argc, CORRECT_NUMBER_ARGC)) {
+        return INCORRECT_NUMBER_OF_ARGC;
     }
 
     const char *file_name_input  = argv[1];
     const char *file_name_output = argv[2];
 
-    struct text_parametrs Eugene_Onegin = {
-        .string_array = NULL,
-        .buffer       = NULL,
-        .number_lines = 0
-    };
+    struct text_parametrs Eugene_Onegin = {};
 
-    constructor(&Eugene_Onegin, file_name_input);
+    FILE *file_pointer_input = check_isopen(file_name_input, "rb");
 
-    FILE *file_pointer = check_isopen (file_name_output, "wb");
+    text_parametrs_constructor(&Eugene_Onegin, file_pointer_input);
+
+    char *string = ((Eugene_Onegin.string_array)[1]).string_pointer;
+
+
+    FILE *file_pointer = check_isopen(file_name_output, "wb");
 
     fprintf(file_pointer, "%s\n\n", Eugene_Onegin.buffer);
 
-    qsort(Eugene_Onegin.string_array, Eugene_Onegin.number_lines, sizeof(string_parametrs), reverse_compare_line);
-    output_data(&Eugene_Onegin, file_pointer);
+    // quick_sort(Eugene_Onegin.string_array, Eugene_Onegin.number_lines, sizeof(string_parametrs), reverse_compare_line);
+    // output_data(&Eugene_Onegin, file_pointer);
 
     quick_sort(Eugene_Onegin.string_array, Eugene_Onegin.number_lines, sizeof(string_parametrs), compare_line);
     output_data(&Eugene_Onegin, file_pointer);
 
-    if(!check_isclose (file_pointer))
-        return -2;
+    MYASSERT(check_isclose(file_pointer),  COULD_NOT_CLOSE_THE_FILE, return COULD_NOT_CLOSE_THE_FILE);
 
-    destructor(&Eugene_Onegin);
+    text_parametrs_destructor(&Eugene_Onegin);
 
-    return 0;    
+    return 0;
 }

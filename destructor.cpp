@@ -1,8 +1,8 @@
 #include "onegin.h"
-#include "myassert.h"
+#include"libraries/utilities/myassert.h"
 #include <stdlib.h>
 
-void destructor(struct text_parametrs *text)
+void text_parametrs_destructor(struct text_parametrs *text)
 {
     MYASSERT(text != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 

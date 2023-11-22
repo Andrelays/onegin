@@ -3,8 +3,8 @@
 
 #include<stdio.h>
 
-void print_buffer(const char *buffer, size_t size_file);
+void print_buffer(const char *buffer, ssize_t size_file);
 void print_string(const char *buffer);
-void print_partition(const int *left_border, const int *right_border, int *pivot, int *array, size_t number_elements);
+void print_partition(const int *left_border, const int *right_border, int *pivot, int *array, ssize_t number_elements);
 
 #endif //TEST_H_INCLUDED

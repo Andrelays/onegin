@@ -1,5 +1,5 @@
 #include"test.h"
-#include "colors.h"
+#include "libraries/utilities/colors.h"
 
 void print_buffer(const char *buffer, size_t size_file)
 {
@@ -10,8 +10,8 @@ void print_buffer(const char *buffer, size_t size_file)
 
         else if(buffer[index] == '\r')
             printf("buffer[%u] = %d = \'\\r\'\n", index, buffer[index]);
-            
-        else 
+
+        else
             printf("buffer[%u] = %d = \'%c\'\n", index, buffer[index], buffer[index]);
     }
 }
@@ -27,15 +27,15 @@ void print_string(const char *string)
 
         if(string[index] == '\r')
             printf("string[%u] = %3d = \'\\r\'\n", index, string[index]);
-            
-        else 
+
+        else
             printf("string[%u] = %3d = \'%c\'\n", index, string[index], string[index]);
 
         ++index;
     }
     if(string[index] == '\n' )
         printf("string[%u] = %3d = \'\\n\'\n", index, string[index]);
-        
+
     else if(string[index] == '\0')
         printf("string[%u] = %3d = \'\\0\'\n", index, string[index]);
 
@@ -44,7 +44,7 @@ void print_string(const char *string)
 
 void print_partition(const int *left_border, const int *right_border, int *pivot, int *array, size_t number_elements)
 {
-    int *pointer = array; 
+    int *pointer = array;
     while(pointer < array + number_elements)
     {
         if(pointer < left_border && pointer < right_border)
@@ -58,17 +58,17 @@ void print_partition(const int *left_border, const int *right_border, int *pivot
 
         else if(pointer == pivot && pointer != right_border)
             printf(GREEN "%d" RESET_COLOR, *pointer);
-        
+
         else if(pointer < right_border)
             printf(YELLOW "%d" RESET_COLOR, *pointer);
-        
+
         else if(pointer == right_border)
             printf(RED "%d" RESET_COLOR, *pointer);
-        
+
         else
             printf(MAGENTA "%d" RESET_COLOR, *pointer);
 
-        ++pointer;    
+        ++pointer;
     }
     printf("       left = %p   right = %p\n", left_border, right_border);
 }

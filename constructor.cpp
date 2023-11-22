@@ -1,25 +1,21 @@
-#include"onegin.h"
-#include"myassert.h"
-#include"test.h"
 #include<stdlib.h>
 #include<string.h>
+#include<ctype.h>
+#include"onegin.h"
+#include"libraries/utilities/myassert.h"
+#include"test.h"
 
-void constructor(struct text_parametrs *text, const char *file_name)
+void text_parametrs_constructor(struct text_parametrs *text, FILE *file_pointer)
 {
     MYASSERT(text != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
-    text->buffer = input_data(file_name);
+    text->buffer = input_data(file_pointer);
 
-    search_strings(text);    
+    search_strings(text);
 }
 
-char *input_data(const char *file_name)
+char *input_data(FILE *file_pointer)
 {
-    FILE *file_pointer = check_isopen (file_name, "rb");
-
-    if (!file_pointer)
-        return NULL;
-
     size_t size_file = determine_size(file_pointer);
 
     char *buffer = (char *)calloc(size_file + 1, sizeof(char));
@@ -28,9 +24,6 @@ char *input_data(const char *file_name)
     size_file = fread(buffer, sizeof(char), size_file, file_pointer);
 
     buffer[size_file] = '\0';
-
-    if(!check_isclose (file_pointer))
-        return NULL;
 
     return buffer;
 }
@@ -61,7 +54,7 @@ void search_strings(struct text_parametrs *text)
     MYASSERT(text->string_array != NULL, NULL_POINTER_PASSED_TO_FUNC, return);
 
     size_t index = 0;
-    const char *string_pointer = text->buffer;
+    char *string_pointer = text->buffer;
 
     for (index = 0; index < text->number_lines - 1; index++)
     {
@@ -70,7 +63,7 @@ void search_strings(struct text_parametrs *text)
         string_pointer = strchr(string_pointer, '\n') + 1;
 
         ((text->string_array)[index]).size_string = string_pointer - ((text->string_array)[index]).string_pointer;
-    } 
+    }
 
     ((text->string_array)[index]).string_pointer = string_pointer;
 
@@ -86,28 +79,38 @@ size_t count_strings(const char *buffer)
     for (size_t index = 0; buffer[index] != '\0'; index++)
         if (buffer[index] == '\n')
             count++;
-    
+
     return (count + 1);
 }
 
-FILE *check_isopen (const char *file_name, const char *opening_mode)
+const char *skip_spaces(const char *string)
 {
-    MYASSERT(file_name != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
+    MYASSERT(string != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL);
 
-    FILE *file_pointer = NULL;
+    size_t string_index = 0;
 
-    if ((file_pointer = fopen (file_name, opening_mode)) == NULL || ferror (file_pointer))
-        printf("ERROR! Could not open the file \"%s\"!\n", file_name);
+    for(string_index = 0; string[string_index] != '\0'; string_index++)
+    {
+        if (!isspace(string[string_index]) && string[string_index] != '\0') {
+            break;
+        }
+    }
 
-    return file_pointer;
+    return string + string_index;
 }
 
-bool check_isclose (FILE *file_pointer)
+errors_code replace_chars_to_null_character(char *text, const char *replaceable_characters)
 {
-    if(fclose(file_pointer))
+    MYASSERT(text                   != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL_POINTER_PASSED_TO_FUNC);
+    MYASSERT(replaceable_characters != NULL, NULL_POINTER_PASSED_TO_FUNC, return NULL_POINTER_PASSED_TO_FUNC);
+
+    text = strpbrk(text, replaceable_characters);
+
+    while (*text != NULL)
     {
-        printf("ERROR! Could not close the file\n");
-        return false;
-    }   
-    return true;
+        *text  = '\0';
+         text  = strpbrk(text, replaceable_characters);
+    }
+
+    return ASSERT_NO_ERROR;
 }
