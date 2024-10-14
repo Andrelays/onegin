@@ -1,9 +1,9 @@
-#include"onegin.h"
-#include"libraries/utilities/myassert.h"
-#include"test.h"
+#include<stdlib.h>
 #include<ctype.h>
 #include<string.h>
-#include<stdlib.h>
+#include"onegin.h"
+#include"myassert.h"
+#include"test.h"
 
 int compare_line(const void *string_parametrs_1, const void *string_parametrs_2)
 {

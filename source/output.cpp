@@ -1,5 +1,5 @@
 #include "onegin.h"
-#include "libraries/utilities/myassert.h"
+#include "myassert.h"
 
 void output_data(const struct text_parametrs *text, FILE *file_pointer)
 {

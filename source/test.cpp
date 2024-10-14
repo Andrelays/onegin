@@ -1,5 +1,5 @@
 #include"test.h"
-#include "libraries/utilities/colors.h"
+#include "colors.h"
 
 void print_buffer(const char *buffer, size_t size_file)
 {

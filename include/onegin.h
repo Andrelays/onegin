@@ -2,7 +2,7 @@
 #define ONEGIN_H_INCLUDED
 
 #include<stdio.h>
-#include"libraries/utilities/myassert.h"
+#include"myassert.h"
 
 struct text_parametrs {
     struct string_parametrs *string_array;

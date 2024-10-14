@@ -2,7 +2,7 @@
 #include<string.h>
 #include<ctype.h>
 #include"onegin.h"
-#include"libraries/utilities/myassert.h"
+#include"myassert.h"
 #include"test.h"
 
 void text_parametrs_constructor(struct text_parametrs *text, FILE *file_pointer)
@@ -106,7 +106,7 @@ errors_code replace_chars_to_null_character(char *text, const char *replaceable_
 
     text = strpbrk(text, replaceable_characters);
 
-    while (*text != NULL)
+    while (text != NULL)
     {
         *text  = '\0';
          text  = strpbrk(text, replaceable_characters);

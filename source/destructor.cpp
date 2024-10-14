@@ -1,6 +1,6 @@
-#include "onegin.h"
-#include"libraries/utilities/myassert.h"
 #include <stdlib.h>
+#include "onegin.h"
+#include"myassert.h"
 
 void text_parametrs_destructor(struct text_parametrs *text)
 {

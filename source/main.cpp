@@ -1,8 +1,8 @@
 #include<stdlib.h>
 #include"onegin.h"
 #include"test.h"
-#include"libraries/utilities/utilities.h"
-#include"libraries/utilities/myassert.h"
+#include"utilities.h"
+#include"myassert.h"
 
 int main(int argc, const char *argv[])
 {
